@@ -162,5 +162,6 @@ npm install
 # Run the development server
 npm run dev
 # App will be running on http://localhost:5173
+
 Author
 Byna Sriroop
