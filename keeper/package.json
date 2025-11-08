@@ -1,0 +1,26 @@
+{
+  "name": "keeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "keeper1": "cross-env KEEPER_PORT=4001 node keeper.js",
+    "keeper2": "cross-env KEEPER_PORT=4002 node keeper.js",
+    "keeper3": "cross-env KEEPER_PORT=4003 node keeper.js",
+    "keeper4": "cross-env KEEPER_PORT=4004 node keeper.js",
+    "keeper5": "cross-env KEEPER_PORT=4005 node keeper.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "ethers": "^5.8.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}

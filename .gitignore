@@ -1,0 +1,27 @@
+# --- Secrets ---
+# Ignore all .env files in the entire project
+.env
+
+# --- Dependencies ---
+# Ignore all node_modules folders in the entire project
+node_modules/
+
+# --- Hardhat / Blockchain Build Artifacts ---
+# Note: No leading slash, so it ignores these in all subfolders
+artifacts/
+cache/
+typechain/
+typechain-types/
+
+# --- Hardhat Ignition ---
+# Ignore all deployment data and journals, not just local
+ignition/deployments/
+ignition/journal/
+
+# --- Debug Files ---
+# Ignore temporary debug files from Hardhat
+*.dbg.json
+
+# --- Coverage (from your file) ---
+coverage/
+coverage.json

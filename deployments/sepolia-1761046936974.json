@@ -1,0 +1,13 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "contractAddress": "0x903b20c185983Ee2b46815A8727aBA559c122801",
+  "deployer": "0xB2B72C69647C55AEC8E984222d1da0728739eF95",
+  "transactionHash": "0x2c7e3e8b7b2d1d012ed220d3c6477cdba0ffd88c85f73decf0acaff8f9719410",
+  "blockNumber": 9458730,
+  "gasUsed": "3996101",
+  "deploymentCost": "0.00007992205996101",
+  "timestamp": "2025-10-21T11:42:16.974Z",
+  "contractName": "TimeCrate",
+  "contractSymbol": "CRATE"
+}
