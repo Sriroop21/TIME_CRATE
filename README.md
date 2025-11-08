@@ -30,7 +30,7 @@ TimeCrate is designed to solve these challenges by providing a decentralized, tr
 
 The system is designed as a multi-layered architecture, separating concerns between the user interface, on-chain logic, and off-chain data management.
 
-![TimeCrate Create Crate UI](./images/create-page.jpg)
+![TimeCrate Create Crate UI](./images/create-page.png)
 
 1.  **React Frontend:** A web application built with React and TypeScript. It serves as the user's portal to connect their MetaMask wallet, select a file, configure the release date, and manage their existing TimeCrates.
 2.  **Solidity Smart Contract:** An ERC-721 contract deployed on the Ethereum (Sepolia) blockchain. It acts as the system's "source of truth," storing the critical metadata for each Crate: the IPFS Content ID (CID), the `releaseTime` (Unix timestamp), and the list of `keeperUrls`.
@@ -55,7 +55,7 @@ The system is designed as a multi-layered architecture, separating concerns betw
 6.  The backend returns the `ipfsCid` and the list of active `keeperUrls` to the React frontend.
 7.  The frontend prompts the user to sign a blockchain transaction, calling the `createCrate` function to mint a new NFT and save the metadata on-chain.
 
-![TimeCrate transaction request](./images/transaction-request.jpg)
+![TimeCrate transaction request](./images/transaction-request.png)
 
 ### 2. The "Unlock" Process (Crate Release)
 
@@ -72,8 +72,8 @@ The system is designed as a multi-layered architecture, separating concerns betw
 9.  The backend combines the shares to reconstruct the AES key.
 10. The backend fetches the encrypted file from IPFS, decrypts it in memory, and streams the decrypted file back to the user as a download.
 
-![TimeCrate 'My Crates' dashboard](./images/my-crates-dashboard.jpg)
-![TimeCrate Unlock Modal](./images/unlock-modal.jpg)
+![TimeCrate 'My Crates' dashboard](./images/my-crates-dashboard.png)
+![TimeCrate Unlock Modal](./images/unlock-modal.png)
 
 ## Getting Started
 
@@ -139,7 +139,7 @@ npm install
 
 # Run each keeper in a separate terminal
 npm run keeper1 # Runs on port 4001
-npm run keeper2 # Runs on port 4002
+npm run keeper2 # Runs on port 4GO02
 npm run keeper3 # Runs on port 4003
 npm run keeper4 # Runs on port 4004
 npm run keeper5 # Runs on port 4005
@@ -162,6 +162,3 @@ npm install
 # Run the development server
 npm run dev
 # App will be running on http://localhost:5173
-
-Author
-Byna Sriroop
