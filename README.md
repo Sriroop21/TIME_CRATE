@@ -123,8 +123,8 @@ This project is a monorepo containing three main parts: `frontend`, `backend`, a
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
-cd <your-project-folder>
+git clone https://github.com/Sriroop21/TIME_CRATE.git
+cd TIME_CRATE
 ```
 
 ### 2. Deploy the Smart Contract
