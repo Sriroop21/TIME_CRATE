@@ -56,16 +56,22 @@ The system is designed as a multi-layered architecture, separating concerns betw
 
 ![TimeCrate Create Crate UI](./images/create-page.png)
 
-1.  **React Frontend:** A web application built with React and TypeScript. It serves as the user's portal to connect their MetaMask wallet, select a file, configure the release date, and manage their existing TimeCrates.
-2.  **Solidity Smart Contract:** An ERC-721 contract deployed on the Ethereum (Sepolia) blockchain. It acts as the system's "source of truth," storing the critical metadata for each Crate: the IPFS Content ID (CID), the `releaseTime` (Unix timestamp), and the list of `keeperUrls`.
-3.  **Node.js Backend (Orchestrator):** A trust-minimized server that performs the heavy lifting:
-    * Encrypts the file with AES-256.
-    * Uploads the encrypted blob to IPFS (via Pinata).
-    * Splits the AES key into SSS shares.
-    * Distributes the shares to the keeper network.
-    * Handles the key reconstruction process during the unlock phase.
-4.  **Keeper Network:** A set of independent Node.js servers (five in this implementation). Their sole job is to store a single key share. They are designed to be "stateless" in terms of rules; they must **always** ask the smart contract for permission before releasing their share.
-5.  **IPFS (via Pinata):** The decentralized storage network where the encrypted file is durably stored. Pinata is used as a "pinning service" to ensure the file remains available.
+### Components
+
+1. **React Frontend:** A web application built with React and TypeScript. It serves as the user's portal to connect their MetaMask wallet, select a file, configure the release date, and manage their existing TimeCrates.
+
+2. **Solidity Smart Contract:** An ERC-721 contract deployed on the Ethereum (Sepolia) blockchain. It acts as the system's "source of truth," storing the critical metadata for each Crate: the IPFS Content ID (CID), the `releaseTime` (Unix timestamp), and the list of `keeperUrls`.
+
+3. **Node.js Backend (Orchestrator):** A trust-minimized server that performs the heavy lifting:
+   * Encrypts the file with AES-256.
+   * Uploads the encrypted blob to IPFS (via Pinata).
+   * Splits the AES key into SSS shares.
+   * Distributes the shares to the keeper network.
+   * Handles the key reconstruction process during the unlock phase.
+
+4. **Keeper Network:** A set of independent Node.js servers (five in this implementation). Their sole job is to store a single key share. They are designed to be "stateless" in terms of rules; they must **always** ask the smart contract for permission before releasing their share.
+
+5. **IPFS (via Pinata):** The decentralized storage network where the encrypted file is durably stored. Pinata is used as a "pinning service" to ensure the file remains available.
 
 ---
 
@@ -73,29 +79,29 @@ The system is designed as a multi-layered architecture, separating concerns betw
 
 ### 1. The "Lock" Process (Crate Creation)
 
-1.  The user selects a file and release date in the React frontend.
-2.  The file is sent to the Node.js backend.
-3.  The backend generates an AES key, encrypts the file, and uploads the encrypted blob to IPFS, receiving an `ipfsCid`.
-4.  The backend splits the AES key into 5 SSS shares.
-5.  It sends one share to each of the 5 independent keeper nodes.
-6.  The backend returns the `ipfsCid` and the list of active `keeperUrls` to the React frontend.
-7.  The frontend prompts the user to sign a blockchain transaction, calling the `createCrate` function to mint a new NFT and save the metadata on-chain.
+1. The user selects a file and release date in the React frontend.
+2. The file is sent to the Node.js backend.
+3. The backend generates an AES key, encrypts the file, and uploads the encrypted blob to IPFS, receiving an `ipfsCid`.
+4. The backend splits the AES key into 5 SSS shares.
+5. It sends one share to each of the 5 independent keeper nodes.
+6. The backend returns the `ipfsCid` and the list of active `keeperUrls` to the React frontend.
+7. The frontend prompts the user to sign a blockchain transaction, calling the `createCrate` function to mint a new NFT and save the metadata on-chain.
 
 ![TimeCrate transaction request](./images/transaction-request.png)
 
 ### 2. The "Unlock" Process (Crate Release)
 
-1.  The user visits the "My Crates" page, which queries the smart contract for all NFTs they own.
-2.  The app checks the `isReleaseReady` function on the smart contract for a specific Crate.
-3.  If the time has passed, the "Unlock" button is enabled.
-4.  The user clicks "Unlock." The app automatically requests one share from an active keeper.
-5.  The keeper node receives the request and **makes two read-only calls** to the smart contract to verify:
-    * `ownerOf(tokenId)`: Is the requester the current NFT owner?
-    * `isReleaseReady(tokenId)`: Has the time passed?
-6.  If both checks pass, the keeper releases its share.
-7.  The app then prompts the user to manually paste two additional shares (which they saved during creation).
-8.  The app POSTs all 3 shares to the backend's `/api/reconstruct` endpoint.
-9.  The backend combines the shares to reconstruct the AES key.
+1. The user visits the "My Crates" page, which queries the smart contract for all NFTs they own.
+2. The app checks the `isReleaseReady` function on the smart contract for a specific Crate.
+3. If the time has passed, the "Unlock" button is enabled.
+4. The user clicks "Unlock." The app automatically requests one share from an active keeper.
+5. The keeper node receives the request and **makes two read-only calls** to the smart contract to verify:
+   * `ownerOf(tokenId)`: Is the requester the current NFT owner?
+   * `isReleaseReady(tokenId)`: Has the time passed?
+6. If both checks pass, the keeper releases its share.
+7. The app then prompts the user to manually paste two additional shares (which they saved during creation).
+8. The app POSTs all 3 shares to the backend's `/api/reconstruct` endpoint.
+9. The backend combines the shares to reconstruct the AES key.
 10. The backend fetches the encrypted file from IPFS, decrypts it in memory, and streams the decrypted file back to the user as a download.
 
 ![TimeCrate 'My Crates' dashboard](./images/my-crates-dashboard.png)
@@ -111,30 +117,29 @@ This project is a monorepo containing three main parts: `frontend`, `backend`, a
 
 * [Node.js](https://nodejs.org/) (v16 or later)
 * [MetaMask](https://metamask.io/) browser extension
-* A Pinata account for IPFS pinning.
-* An Ethereum testnet RPC URL (e.g., from [Alchemy](https://www.alchemy.com/) or [Infura](https://www.infura.io/)). The project is configured for **Sepolia**.
+* A Pinata account for IPFS pinning
+* An Ethereum testnet RPC URL (e.g., from [Alchemy](https://www.alchemy.com/) or [Infura](https://www.infura.io/)). The project is configured for **Sepolia**
 
 ### 1. Clone the Repository
 
 ```bash
 git clone <your-repository-url>
 cd <your-project-folder>
-2. Deploy the Smart Contract
-Navigate to the contracts directory.
+```
 
-Install Hardhat and dependencies.
+### 2. Deploy the Smart Contract
 
-Configure your hardhat.config.ts with your Sepolia RPC URL and a private key (for deployment).
+1. Navigate to the contracts directory
+2. Install Hardhat and dependencies
+3. Configure your `hardhat.config.ts` with your Sepolia RPC URL and a private key (for deployment)
+4. Deploy the `TimeCrate.sol` contract to the Sepolia testnet
+5. Copy the new contract address. You will need it for the frontend and keepers
 
-Deploy the TimeCrate.sol contract to the Sepolia testnet.
+### 3. Backend Setup
 
-Copy the new contract address. You will need it for the frontend and keepers.
-
-3. Backend Setup
 The backend orchestrates encryption and key splitting.
 
-Bash
-
+```bash
 # Navigate to the backend folder
 cd backend
 
@@ -149,11 +154,13 @@ npm install
 # Run the backend server
 node server.js
 # Server will be running on http://localhost:3001
-4. Keeper Network Setup
+```
+
+### 4. Keeper Network Setup
+
 The keepers store and release the key shares. You must run each keeper as a separate process.
 
-Bash
-
+```bash
 # Navigate to the keeper folder
 cd keeper
 
@@ -171,11 +178,13 @@ npm run keeper2 # Runs on port 4002
 npm run keeper3 # Runs on port 4003
 npm run keeper4 # Runs on port 4004
 npm run keeper5 # Runs on port 4005
-5. Frontend Setup
+```
+
+### 5. Frontend Setup
+
 The frontend is the main user interface.
 
-Bash
-
+```bash
 # Navigate to the frontend folder
 cd frontend
 
@@ -190,8 +199,16 @@ npm install
 # Run the development server
 npm run dev
 # App will be running on http://localhost:5173
-License
+```
+
+---
+
+## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Author
-Byna Sriroop
+---
+
+## Author
+
+**Byna Sriroop**
