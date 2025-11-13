@@ -10,6 +10,26 @@ TimeCrate is a decentralized system designed to address the challenge of securel
 
 The system encrypts content, distributes the decryption key shares to a network of independent "keeper" nodes, and uses an ERC-721 (NFT) smart contract to manage ownership and release conditions.
 
+---
+
+## Table of Contents
+
+- [The Problem](#the-problem)
+- [Core Features](#core-features)
+- [System Architecture](#system-architecture)
+- [Workflow](#workflow)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [1. Clone the Repository](#1-clone-the-repository)
+  - [2. Deploy the Smart Contract](#2-deploy-the-smart-contract)
+  - [3. Backend Setup](#3-backend-setup)
+  - [4. Keeper Network Setup](#4-keeper-network-setup)
+  - [5. Frontend Setup](#5-frontend-setup)
+- [License](#license)
+- [Author](#author)
+
+---
+
 ## The Problem
 
 Traditional centralized services that act as escrow agents are vulnerable to numerous risks. They can be compromised by attackers, suffer from service outages, go out of business, or be coerced into releasing content prematurely. This centralization creates a single point of failure.
@@ -18,6 +38,8 @@ Furthermore, decentralized storage solutions like IPFS solve for content address
 
 TimeCrate is designed to solve these challenges by providing a decentralized, trustless, and robust framework for storing and ensuring the automated release of digital content.
 
+---
+
 ## Core Features
 
 * **Trustless Time-Lock:** Content is locked until a specific timestamp. The release condition is enforced by the smart contract on the blockchain.
@@ -25,6 +47,8 @@ TimeCrate is designed to solve these challenges by providing a decentralized, tr
 * **Tamper-Proof Storage:** The file itself, after being encrypted, is stored on IPFS. This provides a content-addressable, decentralized storage layer.
 * **Resilient Key Management:** The AES-256 decryption key is never stored in one place. It is split into multiple "shares" using Shamir's Secret Sharing (e.g., a 3-of-5 threshold).
 * **Decentralized Failover System:** The key shares are distributed to a network of independent "keeper" nodes. The system can tolerate the failure of multiple keepers (e.g., 2 out of 5) and still successfully reconstruct the key.
+
+---
 
 ## System Architecture
 
@@ -42,6 +66,8 @@ The system is designed as a multi-layered architecture, separating concerns betw
     * Handles the key reconstruction process during the unlock phase.
 4.  **Keeper Network:** A set of independent Node.js servers (five in this implementation). Their sole job is to store a single key share. They are designed to be "stateless" in terms of rules; they must **always** ask the smart contract for permission before releasing their share.
 5.  **IPFS (via Pinata):** The decentralized storage network where the encrypted file is durably stored. Pinata is used as a "pinning service" to ensure the file remains available.
+
+---
 
 ## Workflow
 
@@ -74,6 +100,8 @@ The system is designed as a multi-layered architecture, separating concerns betw
 
 ![TimeCrate 'My Crates' dashboard](./images/my-crates-dashboard.png)
 ![TimeCrate Unlock Modal](./images/unlock-modal.png)
+
+---
 
 ## Getting Started
 
@@ -139,7 +167,7 @@ npm install
 
 # Run each keeper in a separate terminal
 npm run keeper1 # Runs on port 4001
-npm run keeper2 # Runs on port 4GO02
+npm run keeper2 # Runs on port 4002
 npm run keeper3 # Runs on port 4003
 npm run keeper4 # Runs on port 4004
 npm run keeper5 # Runs on port 4005
@@ -162,3 +190,8 @@ npm install
 # Run the development server
 npm run dev
 # App will be running on http://localhost:5173
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+Author
+Byna Sriroop
